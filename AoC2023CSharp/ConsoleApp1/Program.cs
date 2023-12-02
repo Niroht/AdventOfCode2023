@@ -17,7 +17,10 @@ namespace Implementation
                 { "green", 13 },
                 { "blue", 14 }
             };
-            Console.WriteLine($"Day Two Part 1: {DayTwo.SumPossibleToPull(dayTwoPartOneExistingSet, dayTwoInputLines.Select(DayTwo.ParseCubePullGame))}");
+
+            var dayTwoDomainModels = dayTwoInputLines.Select(DayTwo.ParseCubePullGame);
+            Console.WriteLine($"Day Two Part 1: {DayTwo.SumPossibleToPull(dayTwoPartOneExistingSet, dayTwoDomainModels)}");
+            Console.WriteLine($"Day Two Part 2: {dayTwoDomainModels.Sum(model => model.ProductOfMaximumCounts())}");
         }
     }
 }

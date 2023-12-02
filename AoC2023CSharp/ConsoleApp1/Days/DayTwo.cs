@@ -13,11 +13,7 @@ namespace Implementation.Days
         {
             var allPullsArePossible = (CubePullGame game) =>
             {
-                return game.Pulls
-                .All(pull => pull.All(entry =>
-                {
-                    return actualContents.ContainsKey(entry.Key) && actualContents[entry.Key] >= entry.Value;
-                }));
+                return game.MaximumPullsPerColor.All(entry => actualContents.TryGetValue(entry.Key, out var actualValue) && actualValue >= entry.Value);
             };
 
             return cubePulls.Where(allPullsArePossible).Sum(game => game.Id);
@@ -30,15 +26,35 @@ namespace Implementation.Days
 
             var pullStrings = parts[1].Split("; ");
 
-            var pulls = pullStrings
+            var pullsByColorPerGame = pullStrings
                 .Select(pull => pull
                     .Split(", ")
                     .ToDictionary(colorSet => colorSet.Split(" ")[1], colorSet => int.Parse(colorSet.Split(" ")[0])));
 
+            var maximumPullsByColor = new Dictionary<string, int>();
+
+            foreach (var pull in pullsByColorPerGame)
+            {
+                foreach(var entry in pull)
+                {
+                    if (maximumPullsByColor.TryGetValue(entry.Key, out var existingValue))
+                    {
+                        if (existingValue < entry.Value)
+                        {
+                            maximumPullsByColor[entry.Key] = entry.Value;
+                        }
+                    }
+                    else
+                    {
+                        maximumPullsByColor.Add(entry.Key, entry.Value);
+                    }
+                }
+            }
+
             return new CubePullGame
             {
                 Id = id,
-                Pulls = pulls
+                MaximumPullsPerColor = maximumPullsByColor,
             };
         }
     }
@@ -47,6 +63,11 @@ namespace Implementation.Days
     {
         public int Id { get; set; }
 
-        public IEnumerable<Dictionary<string, int>> Pulls { get; set; } = new List<Dictionary<string, int>>();
+        public Dictionary<string, int> MaximumPullsPerColor { get; set; } = new Dictionary<string, int>();
+
+        public long ProductOfMaximumCounts()
+        {
+            return MaximumPullsPerColor.Aggregate(1, (accumulator, entry) => accumulator * entry.Value);
+        }
     }
 }
