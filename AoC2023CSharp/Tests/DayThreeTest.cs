@@ -110,5 +110,35 @@ namespace Tests
 
             Assert.Equal(4 + 5, result);
         }
+
+        [Fact]
+        public void GearRatios_TwoGears()
+        {
+            var matrix = new char[][]
+            {
+                new char[] { '1', '2', '3'},
+                new char[] { '@', '.', '.'},
+                new char[] { '4', '#', '5'},
+            };
+
+            var result = DayThree.SumGearRatios(matrix);
+
+            Assert.Equal((4 * 123) + (5 * 4), result);
+        }
+
+        [Fact]
+        public void GearRatios_OneGear()
+        {
+            var matrix = new char[][]
+            {
+                new char[] { '1', '.', '3'},
+                new char[] { '@', '$', '.'},
+                new char[] { '4', '.', '5'},
+            };
+
+            var result = DayThree.SumGearRatios(matrix);
+
+            Assert.Equal(4, result);
+        }
     }
 }

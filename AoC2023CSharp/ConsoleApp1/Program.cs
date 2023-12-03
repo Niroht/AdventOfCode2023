@@ -24,6 +24,7 @@ namespace Implementation
 
             var dayThreeInputLines = File.ReadAllLines(@"Input/DayThreeInput.txt");
             Console.WriteLine($"Day Three Part 1: {DayThree.SumPartNumbersAdjacentToSmybol(dayThreeInputLines.Select(l => l.ToCharArray()).ToArray())}");
+            Console.WriteLine($"Day Three Part 2: {DayThree.SumGearRatios(dayThreeInputLines.Select(l => l.ToCharArray()).ToArray())}");
         }
     }
 }
