@@ -25,6 +25,15 @@ namespace Implementation
             var dayThreeInputLines = File.ReadAllLines(@"Input/DayThreeInput.txt");
             Console.WriteLine($"Day Three Part 1: {DayThree.SumPartNumbersAdjacentToSmybol(dayThreeInputLines.Select(l => l.ToCharArray()).ToArray())}");
             Console.WriteLine($"Day Three Part 2: {DayThree.SumGearRatios(dayThreeInputLines.Select(l => l.ToCharArray()).ToArray())}");
+
+            var dayFourInputLines = File.ReadAllLines(@"Input/DayFourInput.txt");
+            var dayFourDomainModels = dayFourInputLines.Select(line =>
+            {
+                var titleAndCard = line.Split(':');
+                var numberSets = titleAndCard[1].Replace("  ", " ").Split('|');
+                return (numberSets[0].Trim().Split(" ").Select(int.Parse), numberSets[1].Trim().Split(" ").Select(int.Parse));
+            });
+            Console.WriteLine($"Day Four Part 1: {DayFour.SumCardScores(dayFourDomainModels)}");
         }
     }
 }
